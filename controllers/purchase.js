@@ -7,9 +7,7 @@ const Auth = require('../models/auth');
 
 
 const purchasePremium = async (req,res) =>{
-    console.log('keyid and secret key==',process.env.Razorpay_key_id," , ",process.env.Razorpay_secret_id)
- // console.log("req user===", req.user);
-    try {
+     try {
 
     const razorpay = new Razorpay({
         key_id: process.env.Razorpay_key_id,          // Replace with your Razorpay Key Id

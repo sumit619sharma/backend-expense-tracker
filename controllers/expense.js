@@ -3,7 +3,6 @@ const Downloads = require('../models/downloads');
 const Expense = require('../models/expense')
 const sequelize = require('../util/database');
 require('dotenv').config(); 
-
 const AWS = require('aws-sdk')
 
 exports.postAddExpense =async (req,res) =>{
@@ -138,16 +137,14 @@ try {
       res.json({message: err});
     })
      }
-
-    async function uploadToS3(data,filename){
+     async function uploadToS3(data,filename){
       const BUCKET_NAME = process.env.BUCKET_NAME;
       const IAM_USER_KEY =process.env.IAM_USER_KEY;
       const IAM_USER_SECRET =process.env.IAM_USER_SECRET;
-
+    
       let s3bucket = new AWS.S3({
         accessKeyId: IAM_USER_KEY,
         secretAccessKey: IAM_USER_SECRET,
-      
       })
         
       var params = {
@@ -159,18 +156,18 @@ try {
         return new Promise((resolve,reject) => {
           s3bucket.upload(params, (err,resp) =>{
             if(err){
-  console.log("s3 error==",err);
-  reject(err);
+    console.log("s3 error==",err);
+    reject(err);
             }
             else{
-  resolve( resp.Location);
+    resolve( resp.Location);
             }
            });
-
+    
         })
          
          
-
+    
      }
 
      exports.downloadExpense =async (req,res) =>{

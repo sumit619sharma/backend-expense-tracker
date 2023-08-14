@@ -46,21 +46,26 @@ function generateAccesstoken(id){
 }
 
 const isAuthrorized =  async(req,res,next) =>{
-const authToken =await req.headers.authorization;
-const decUser =  jwt.verify(authToken,secretKey);
-console.log('header object check==',decUser,"===",authToken);
-if(decUser===undefined){
-    return await res.send({message:'invalid token'})
-}
-
-const user =  await Auth.findOne({where: {id: decUser.userId}})
-if(!user){
-   await res.status(404).send({success: false, message: 'user Not found'})
-} else{
-    req.user = user;
-    console.log("Succed for create request=====");
-    next();
-}   
+  
+try {
+    const authToken =await req.headers.authorization;
+    const decUser =  jwt.verify(authToken,secretKey);
+    console.log('header object check==',decUser,"===",authToken);
+    if(decUser===undefined){
+        return await res.send({message:'invalid token'})
+    }
+    
+    const user =  await Auth.findOne({where: {id: decUser.userId}})
+    if(!user){
+       await res.status(404).send({success: false, message: 'user Not found'})
+    } else{
+        req.user = user;
+        console.log("Succed for create request=====");
+        next();
+    }    
+} catch (error) {
+    res.status(404).send({success: false, message: 'user Not found'})
+} 
 
 }
                     
